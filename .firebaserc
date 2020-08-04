@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "socialape-d081e"
+    "default": "cbasucre-cb23c",
+    "cbasucre": "cbasucre-cb23c"
   }
 }

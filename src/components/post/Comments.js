@@ -20,6 +20,13 @@ const styles = (theme) => ({
   }
 });
 
+function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '">' + url + '</a>';
+  })
+}
+
 class Comments extends Component {
   render() {
     const { comments, classes } = this.props;
@@ -52,7 +59,7 @@ class Comments extends Component {
                         {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
                       </Typography>
                       <hr className={classes.invisibleSeparator} />
-                      <Typography variabnt="body1">{body}</Typography>
+                      <Typography variabnt="body1">{<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}</Typography>
                     </div>
                   </Grid>
                 </Grid>
