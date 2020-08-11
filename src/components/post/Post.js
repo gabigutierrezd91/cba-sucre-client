@@ -33,6 +33,13 @@ const styles = {
   }
 };
 
+function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '">' + url + '</a>';
+  })
+}
+
 class Post extends Component {
   render() {
     dayjs.extend(relativeTime);
@@ -77,7 +84,7 @@ class Post extends Component {
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
-          <Typography variant="body1">{body}</Typography>
+          <Typography variant="body1">{<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}</Typography>
           <LikeButton postId={postId} />
           <span>{likeCount} Likes</span>
           <MyButton tip="comments">
