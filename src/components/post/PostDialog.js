@@ -47,6 +47,15 @@ const styles = (theme) => ({
   }
 });
 
+function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  if (typeof text !== 'undefined') {
+    return text.replace(urlRegex, function(url) {
+      return '<a style="text-decoration:underline" href="' + url + '" target="_blank">' + url + '</a>';
+    })
+  }
+}
+
 class PostDialog extends Component {
   state = {
     open: false,
@@ -116,7 +125,9 @@ class PostDialog extends Component {
             {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
           </Typography>
           <hr className={classes.invisibleSeparator} />
-          <Typography variant="body1">{body}</Typography>
+          <Typography variant="body1">
+            {<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}
+          </Typography>
           <LikeButton postId={postId} />
           <span>{likeCount} likes</span>
           <MyButton tip="comments">

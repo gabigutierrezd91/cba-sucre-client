@@ -95,7 +95,7 @@ class PostPost extends Component {
                 label="POST!!!"
                 multiline
                 rows="3"
-                placeholder="Post at your fellow apes"
+                placeholder="Post at your fellow friends"
                 error={errors.body ? true : false}
                 helperText={errors.body}
                 className={classes.textField}

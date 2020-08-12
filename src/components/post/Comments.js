@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 // MUI
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+// import { ReactTinyLink } from 'react-tiny-link';
 
 const styles = (theme) => ({
   ...theme,
@@ -22,9 +23,11 @@ const styles = (theme) => ({
 
 function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return '<a href="' + url + '">' + url + '</a>';
-  })
+  if (typeof text !== 'undefined') {
+    return text.replace(urlRegex, function(url) {
+      return '<a style="text-decoration:underline" href="' + url + '" target="_blank">' + url + '</a>';
+    })
+  }
 }
 
 class Comments extends Component {
@@ -59,7 +62,9 @@ class Comments extends Component {
                         {dayjs(createdAt).format('h:mm a, MMMM DD YYYY')}
                       </Typography>
                       <hr className={classes.invisibleSeparator} />
-                      <Typography variabnt="body1">{<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}</Typography>
+                      <Typography variabnt="body1">
+                        {<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}
+                      </Typography>
                     </div>
                   </Grid>
                 </Grid>

@@ -13,6 +13,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { ReactTinyLink } from 'react-tiny-link';
 // Icons
 import ChatIcon from '@material-ui/icons/Chat';
 // Redux
@@ -35,9 +36,30 @@ const styles = {
 
 function urlify(text) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return '<a href="' + url + '">' + url + '</a>';
-  })
+  if (typeof text !== 'undefined') {
+    return text.replace(urlRegex, function(url) {
+      return '<a style="text-decoration:underline" href="' + url + '" target="_blank">' + url + '</a>';
+    })
+  }
+}
+
+function preview(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  if (typeof text !== 'undefined') {
+    var a = text.match(urlRegex);
+    console.log(a);
+    if (a !== null) {
+      return a.map((urlElement) => 
+        <ReactTinyLink
+          cardSize="small"
+          showGraphic={true}
+          maxLine={2}
+          minLine={1}
+          url = {urlElement}
+        />
+      );
+    }
+  }
 }
 
 class Post extends Component {
@@ -84,7 +106,10 @@ class Post extends Component {
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
-          <Typography variant="body1">{<div dangerouslySetInnerHTML={{__html:urlify(body)}} />}</Typography>
+          <Typography variant="body1">
+            <div dangerouslySetInnerHTML={{__html:urlify(body)}} />
+            {preview(body)}
+          </Typography>
           <LikeButton postId={postId} />
           <span>{likeCount} Likes</span>
           <MyButton tip="comments">
